@@ -1,5 +1,5 @@
 """
-AI Body & Face Scanner - Configuration File
+BiomechAI - Configuration File
 """
 
 # User Anthropometric Parameters (Optional: for enhanced metric precision)

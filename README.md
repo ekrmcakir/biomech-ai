@@ -1,4 +1,4 @@
-# 🦾 AI Body & Face Scanner 5.0
+# 🦾 BiomechAI 5.0
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.12-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-Pose%20%26%20FaceMesh-00C49F?logo=google&logoColor=white)](https://developers.google.com/mediapipe)
@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![macOS](https://img.shields.io/badge/Platform-macOS%20(Metal%20Accelerated)-black?logo=apple&logoColor=white)](https://apple.com)
 
-> An intelligent, real-time computer vision system for **360° posture analysis**, **V-Taper & body fat estimation**, and **facial adiposity / jawline sharpness evaluation** featuring an asynchronous **English Voice Coach** and a high-tech **glassmorphism HUD dashboard**.
+> **BiomechAI** is an intelligent, real-time computer vision system for **360° biomechanical posture analysis**, **V-Taper & body fat estimation**, and **facial adiposity / jawline sharpness evaluation** featuring an asynchronous **English Voice Coach** and a high-tech **glassmorphism HUD dashboard**.
 
 ---
 
@@ -106,8 +106,8 @@ Analyzes 468 3D facial landmarks (MediaPipe FaceMesh) to estimate subcutaneous b
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/ai-body-scanner.git
-cd ai-body-scanner
+git clone https://github.com/<your-username>/biomech-ai.git
+cd biomech-ai
 ```
 
 ### 2. Set Up Virtual Environment & Dependencies

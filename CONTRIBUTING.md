@@ -1,4 +1,4 @@
-# Contributing to AI Body & Face Scanner
+# Contributing to BiomechAI
 
 Thank you for your interest in contributing! We welcome enhancements in computer vision accuracy, new biomechanical indicators, and user interface designs.
 
@@ -7,8 +7,8 @@ Thank you for your interest in contributing! We welcome enhancements in computer
 1. **Fork the Repository** on GitHub.
 2. **Clone your fork**:
    ```bash
-   git clone https://github.com/<your-username>/ai-body-scanner.git
-   cd ai-body-scanner
+   git clone https://github.com/<your-username>/biomech-ai.git
+   cd biomech-ai
    ```
 3. **Set up the virtual environment**:
    ```bash

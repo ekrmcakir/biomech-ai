@@ -309,8 +309,8 @@ class FaceScanner:
         pil_img = Image.fromarray(rgb_img)
         draw = ImageDraw.Draw(pil_img)
 
-        draw.text((50, 27), "AI FACIAL ADIPOSITY", font=self.font_title, fill=(0, 230, 255))
-        draw.text((255, 33), "JAWLINE & FACE FAT ENGINE", font=self.font_label, fill=(160, 180, 200))
+        draw.text((50, 27), "BIOMECHAI", font=self.font_title, fill=(0, 230, 255))
+        draw.text((180, 33), "FACIAL ADIPOSITY & JAWLINE ENGINE", font=self.font_label, fill=(160, 180, 200))
         draw.text((w - 270, 31), "FACE SCAN MODE", font=self.font_badge, fill=(240, 240, 255))
 
         draw.text((w // 2 - 150, 82), f">> {metrics['status_message']}", font=self.font_sub, fill=(255, 255, 255))

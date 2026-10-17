@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AI Body & Face Scanner // v5.0 (English Edition)
-================================================
+BiomechAI // v5.0 (English Edition)
+===================================
 1. Voice-Guided 360° Body & Posture Scanner:
    - Front Profile : V-Taper Ratio, Shoulder Width, Body Fat Estimation
    - Back Profile  : Left/Right Shoulder Drop (cm/deg), Spinal Curvature
@@ -41,7 +41,7 @@ from voice_coach import VoiceCoach
 
 def main():
     print("=" * 76)
-    print("    AI BODY & FACE SCANNER 5.0 // 360° POSTURE & FACIAL ADIPOSITY ENGINE    ")
+    print("    BIOMECHAI 5.0 // 360° BIOMECHANICAL POSTURE & FACIAL ADIPOSITY ENGINE    ")
     print("=" * 76)
     print("Initializing camera feed...")
 
@@ -82,7 +82,7 @@ def main():
     stage_target_detected_time = 0
     countdown_duration = 3.0
 
-    window_name = "AI Body & Face Scanner"
+    window_name = "BiomechAI // 360 Biomechanics HUD"
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
     cv2.resizeWindow(window_name, FRAME_WIDTH, FRAME_HEIGHT)
 

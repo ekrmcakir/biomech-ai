@@ -322,8 +322,8 @@ class UIOverlay:
         draw = ImageDraw.Draw(pil_img)
 
         # 1. Header Texts
-        draw.text((50, 27), "AI BODY SCANNER", font=self.font_title, fill=(0, 255, 180))
-        draw.text((225, 33), "360 BIOMETRICS & POSTURE ENGINE", font=self.font_label, fill=(160, 180, 200))
+        draw.text((50, 27), "BIOMECHAI", font=self.font_title, fill=(0, 255, 180))
+        draw.text((180, 33), "360° BIOMETRICS & POSTURE ENGINE", font=self.font_label, fill=(160, 180, 200))
         draw.text((w - 310, 31), badge_title, font=self.font_badge, fill=(240, 240, 255))
 
         # 2. Distance Text

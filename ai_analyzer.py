@@ -71,7 +71,7 @@ class AIAnalyzer:
 
         report = f"""
 =============================================================
-   AI BODY SCANNER // 360° BIOMETRICS & POSTURE REPORT
+   BIOMECHAI // 360° BIOMETRICS & POSTURE REPORT
 =============================================================
 Timestamp    : {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight: {weight} kg | BMI: {bmi}
@@ -160,7 +160,7 @@ User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight
 
         report = f"""
 =============================================================
-   AI FACIAL ADIPOSITY // JAWLINE & FACE FAT REPORT
+   BIOMECHAI // FACIAL ADIPOSITY & JAWLINE REPORT
 =============================================================
 Timestamp    : {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight: {weight} kg
