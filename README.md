@@ -140,7 +140,7 @@ python app.py
 
 ## ⚙️ Configuration
 
-Customize your anthropometric profile in [config.py](file:///Users/ekremcakir/.gemini/antigravity-ide/scratch/ai-body-scanner/config.py):
+Customize your anthropometric profile in [config.py](file:///Users/ekremcakir/.gemini/antigravity-ide/scratch/biomech-ai/config.py):
 
 ```python
 USER_CONFIG = {
