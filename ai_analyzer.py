@@ -1,6 +1,7 @@
 import os
-import cv2
 import datetime
+from typing import Dict, Any, Optional
+import cv2
 from PIL import Image
 
 try:
@@ -17,7 +18,7 @@ class AIAnalyzer:
     and facial adiposity / jawline assessment engine.
     """
 
-    def __init__(self, api_key=None):
+    def __init__(self, api_key: Optional[str] = None) -> None:
         self.api_key = api_key or os.environ.get("GEMINI_API_KEY", "")
         self.client = None
         if self.api_key and HAS_GENAI:
@@ -26,7 +27,14 @@ class AIAnalyzer:
             except Exception as e:
                 print(f"[Warning] Gemini Client could not be initialized: {e}")
 
-    def generate_local_report(self, metrics, user_config=None, front_metrics=None, side_metrics=None, back_metrics=None):
+    def generate_local_report(
+        self,
+        metrics: Dict[str, Any],
+        user_config: Optional[Dict[str, Any]] = None,
+        front_metrics: Optional[Dict[str, Any]] = None,
+        side_metrics: Optional[Dict[str, Any]] = None,
+        back_metrics: Optional[Dict[str, Any]] = None
+    ) -> str:
         """Generates comprehensive 360° posture and body composition report in English."""
         user_cfg = user_config or {}
         height = user_cfg.get("height_cm", 170)
@@ -131,8 +139,11 @@ User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight
         report += "\n=============================================================\n"
         return report
 
-    def generate_face_report(self, face_metrics, user_config=None):
-        """Generates detailed facial adiposity, jawline definition, and body fat report in English."""
+    def generate_face_report(
+        self,
+        face_metrics: Dict[str, Any],
+        user_config: Optional[Dict[str, Any]] = None
+    ) -> str:
         user_cfg = user_config or {}
         height = user_cfg.get("height_cm", 170)
         weight = user_cfg.get("weight_kg", 63)

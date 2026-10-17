@@ -1,5 +1,6 @@
 import os
 import math
+from typing import Dict, Any, Tuple, Optional, List
 import numpy as np
 import cv2
 from PIL import Image, ImageDraw, ImageFont
@@ -27,7 +28,7 @@ class FaceScanner:
         377, 400, 378, 379, 365, 397, 288, 361, 323, 454
     ]
 
-    def __init__(self, min_detection_confidence=0.6, min_tracking_confidence=0.6):
+    def __init__(self, min_detection_confidence: float = 0.6, min_tracking_confidence: float = 0.6) -> None:
         self.has_facemesh = HAS_FACEMESH
         if self.has_facemesh:
             self.face_mesh = mp_face_mesh.FaceMesh(
@@ -58,10 +59,10 @@ class FaceScanner:
             self.font_label = ImageFont.load_default()
             self.font_tiny = ImageFont.load_default()
 
-    def calculate_distance(self, p1, p2):
+    def calculate_distance(self, p1: Tuple[float, ...], p2: Tuple[float, ...]) -> float:
         return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
 
-    def calculate_angle(self, p_left, p_vertex, p_right):
+    def calculate_angle(self, p_left: Tuple[float, ...], p_vertex: Tuple[float, ...], p_right: Tuple[float, ...]) -> float:
         v1 = (p_left[0] - p_vertex[0], p_left[1] - p_vertex[1])
         v2 = (p_right[0] - p_vertex[0], p_right[1] - p_vertex[1])
         dot = v1[0] * v2[0] + v1[1] * v2[1]
@@ -72,7 +73,7 @@ class FaceScanner:
         cos_angle = max(-1.0, min(1.0, dot / (mag1 * mag2)))
         return math.degrees(math.acos(cos_angle))
 
-    def draw_rounded_rect(self, img, pt1, pt2, color, radius=12, alpha=0.84, border_color=(60, 75, 90)):
+    def draw_rounded_rect(self, img: np.ndarray, pt1: Tuple[int, int], pt2: Tuple[int, int], color: Tuple[int, int, int], radius: int = 12, alpha: float = 0.84, border_color: Tuple[int, int, int] = (60, 75, 90)) -> None:
         x1, y1 = pt1
         x2, y2 = pt2
         overlay = img.copy()
@@ -90,7 +91,7 @@ class FaceScanner:
             cv2.line(img, (x1, y1 + radius), (x1, y2 - radius), border_color, 1, cv2.LINE_AA)
             cv2.line(img, (x2, y1 + radius), (x2, y2 - radius), border_color, 1, cv2.LINE_AA)
 
-    def draw_corner_brackets(self, img, x1, y1, x2, y2, color, length=12, thickness=2):
+    def draw_corner_brackets(self, img: np.ndarray, x1: int, y1: int, x2: int, y2: int, color: Tuple[int, int, int], length: int = 12, thickness: int = 2) -> None:
         cv2.line(img, (x1, y1), (x1 + length, y1), color, thickness, cv2.LINE_AA)
         cv2.line(img, (x1, y1), (x1, y1 + length), color, thickness, cv2.LINE_AA)
         cv2.line(img, (x2, y1), (x2 - length, y1), color, thickness, cv2.LINE_AA)
@@ -100,14 +101,14 @@ class FaceScanner:
         cv2.line(img, (x2, y2), (x2 - length, y2), color, thickness, cv2.LINE_AA)
         cv2.line(img, (x2, y2), (x2 - length, y2), color, thickness, cv2.LINE_AA)
 
-    def draw_radial_gauge(self, img, cx, cy, radius, value, max_val, color, thickness=6):
+    def draw_radial_gauge(self, img: np.ndarray, cx: int, cy: int, radius: int, value: float, max_val: float, color: Tuple[int, int, int], thickness: int = 6) -> None:
         cv2.circle(img, (cx, cy), radius, (35, 42, 50), thickness, cv2.LINE_AA)
         pct = max(0.0, min(1.0, value / max_val))
         sweep = int(pct * 360)
         if sweep > 0:
             cv2.ellipse(img, (cx, cy), (radius, radius), -90, 0, sweep, color, thickness, cv2.LINE_AA)
 
-    def process_frame(self, frame_bgr):
+    def process_frame(self, frame_bgr: np.ndarray) -> Dict[str, Any]:
         h, w, _ = frame_bgr.shape
         metrics = {
             "detected": False,

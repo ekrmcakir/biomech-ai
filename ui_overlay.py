@@ -1,6 +1,7 @@
 import os
 import time
 import math
+from typing import Dict, Any, Tuple, Optional
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -17,15 +18,15 @@ class UIOverlay:
       - Holographic corner brackets and telemetry status bars
     """
 
-    def __init__(self, config=None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None) -> None:
         self.config = config or {}
-        self.theme_color = self.config.get("theme_color", (0, 255, 180))     # Neon Mint / Cyan (BGR)
-        self.accent_color = self.config.get("accent_color", (255, 130, 0))   # Neon Blue / Orange (BGR)
-        self.warning_color = self.config.get("warning_color", (0, 180, 255)) # Orange / Amber
-        self.danger_color = self.config.get("danger_color", (0, 50, 255))    # Red / Coral
-        self.success_color = self.config.get("success_color", (0, 255, 120)) # Emerald Green
-        self.laser_pos = 100
-        self.laser_dir = 1
+        self.theme_color: Tuple[int, int, int] = self.config.get("theme_color", (0, 255, 180))     # Neon Mint / Cyan (BGR)
+        self.accent_color: Tuple[int, int, int] = self.config.get("accent_color", (255, 130, 0))   # Neon Blue / Orange (BGR)
+        self.warning_color: Tuple[int, int, int] = self.config.get("warning_color", (0, 180, 255)) # Orange / Amber
+        self.danger_color: Tuple[int, int, int] = self.config.get("danger_color", (0, 50, 255))    # Red / Coral
+        self.success_color: Tuple[int, int, int] = self.config.get("success_color", (0, 255, 120)) # Emerald Green
+        self.laser_pos: float = 100.0
+        self.laser_dir: int = 1
 
         self.font_path = "/System/Library/Fonts/Helvetica.ttc"
         if not os.path.exists(self.font_path):
@@ -46,7 +47,16 @@ class UIOverlay:
             self.font_label = ImageFont.load_default()
             self.font_tiny = ImageFont.load_default()
 
-    def draw_rounded_rect(self, img, pt1, pt2, color, radius=12, alpha=0.82, border_color=(60, 75, 90)):
+    def draw_rounded_rect(
+        self,
+        img: np.ndarray,
+        pt1: Tuple[int, int],
+        pt2: Tuple[int, int],
+        color: Tuple[int, int, int],
+        radius: int = 12,
+        alpha: float = 0.82,
+        border_color: Tuple[int, int, int] = (60, 75, 90)
+    ) -> None:
         """Draws frosted glass rounded rectangle."""
         x1, y1 = pt1
         x2, y2 = pt2
@@ -67,7 +77,17 @@ class UIOverlay:
             cv2.line(img, (x1, y1 + radius), (x1, y2 - radius), border_color, 1, cv2.LINE_AA)
             cv2.line(img, (x2, y1 + radius), (x2, y2 - radius), border_color, 1, cv2.LINE_AA)
 
-    def draw_corner_brackets(self, img, x1, y1, x2, y2, color, length=12, thickness=2):
+    def draw_corner_brackets(
+        self,
+        img: np.ndarray,
+        x1: int,
+        y1: int,
+        x2: int,
+        y2: int,
+        color: Tuple[int, int, int],
+        length: int = 12,
+        thickness: int = 2
+    ) -> None:
         """Draws sci-fi targeting corner brackets."""
         cv2.line(img, (x1, y1), (x1 + length, y1), color, thickness, cv2.LINE_AA)
         cv2.line(img, (x1, y1), (x1, y1 + length), color, thickness, cv2.LINE_AA)
@@ -78,7 +98,17 @@ class UIOverlay:
         cv2.line(img, (x2, y2), (x2 - length, y2), color, thickness, cv2.LINE_AA)
         cv2.line(img, (x2, y2), (x2 - length, y2), color, thickness, cv2.LINE_AA)
 
-    def draw_radial_gauge(self, img, cx, cy, radius, value, max_val, color, thickness=6):
+    def draw_radial_gauge(
+        self,
+        img: np.ndarray,
+        cx: int,
+        cy: int,
+        radius: int,
+        value: float,
+        max_val: float,
+        color: Tuple[int, int, int],
+        thickness: int = 6
+    ) -> None:
         """Draws Apple Watch style radial gauge ring."""
         cv2.circle(img, (cx, cy), radius, (35, 42, 50), thickness, cv2.LINE_AA)
         pct = max(0.0, min(1.0, value / max_val))
@@ -86,7 +116,15 @@ class UIOverlay:
         if sweep_angle > 0:
             cv2.ellipse(img, (cx, cy), (radius, radius), -90, 0, sweep_angle, color, thickness, cv2.LINE_AA)
 
-    def draw_glowing_line(self, img, pt1, pt2, color, core_thickness=2, glow_thickness=7):
+    def draw_glowing_line(
+        self,
+        img: np.ndarray,
+        pt1: Tuple[int, int],
+        pt2: Tuple[int, int],
+        color: Tuple[int, int, int],
+        core_thickness: int = 2,
+        glow_thickness: int = 7
+    ) -> None:
         """Draws dual-layer glowing neon line."""
         overlay = img.copy()
         cv2.line(overlay, pt1, pt2, color, glow_thickness, cv2.LINE_AA)
@@ -94,7 +132,12 @@ class UIOverlay:
         cv2.line(img, pt1, pt2, (255, 255, 255), 1, cv2.LINE_AA)
         cv2.line(img, pt1, pt2, color, core_thickness, cv2.LINE_AA)
 
-    def apply_segmentation_effects(self, frame, mask, bg_mode=0):
+    def apply_segmentation_effects(
+        self,
+        frame: np.ndarray,
+        mask: Optional[np.ndarray],
+        bg_mode: int = 0
+    ) -> np.ndarray:
         """Applies silhouette and laser visual effects."""
         if mask is None or bg_mode == 0:
             return frame
@@ -142,8 +185,16 @@ class UIOverlay:
 
         return frame
 
-    def draw_hud(self, frame, metrics, show_landmarks=True, scan_active=False, bg_mode=0, guided_info=None, voice_enabled=True):
-        """Draws complete modern HUD dashboard."""
+    def draw_hud(
+        self,
+        frame: np.ndarray,
+        metrics: Dict[str, Any],
+        show_landmarks: bool = True,
+        scan_active: bool = False,
+        bg_mode: int = 0,
+        guided_info: Optional[Dict[str, Any]] = None,
+        voice_enabled: bool = True
+    ) -> np.ndarray:
         h, w, _ = frame.shape
         display = frame.copy()
         view_mode = metrics.get("view_mode", "front")

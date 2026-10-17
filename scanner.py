@@ -1,4 +1,5 @@
 import math
+from typing import Dict, Any, Tuple, Optional
 import numpy as np
 import cv2
 
@@ -26,7 +27,7 @@ class BodyScanner:
       - Back Profile  : Left/Right Shoulder Drop (cm/deg), Lateral Spine Deviation (Scoliosis indicator)
     """
 
-    def __init__(self, min_detection_confidence=0.6, min_tracking_confidence=0.6):
+    def __init__(self, min_detection_confidence: float = 0.6, min_tracking_confidence: float = 0.6) -> None:
         self.has_mediapipe = HAS_MEDIAPIPE
         if self.has_mediapipe:
             self.pose = mp_pose.Pose(
@@ -40,11 +41,11 @@ class BodyScanner:
         else:
             self.pose = None
 
-    def calculate_distance(self, p1, p2):
+    def calculate_distance(self, p1: Tuple[float, ...], p2: Tuple[float, ...]) -> float:
         """Calculates 2D Euclidean distance between two points."""
         return math.hypot(p2[0] - p1[0], p2[1] - p1[1])
 
-    def calculate_angle(self, a, b, c):
+    def calculate_angle(self, a: Tuple[float, ...], b: Tuple[float, ...], c: Tuple[float, ...]) -> float:
         """Calculates angle at vertex b in degrees."""
         radians = math.atan2(c[1] - b[1], c[0] - b[0]) - math.atan2(a[1] - b[1], a[0] - b[0])
         angle = abs(radians * 180.0 / math.pi)
@@ -52,7 +53,7 @@ class BodyScanner:
             angle = 360 - angle
         return angle
 
-    def process_frame(self, frame_bgr, user_height_cm=170):
+    def process_frame(self, frame_bgr: np.ndarray, user_height_cm: float = 170.0) -> Dict[str, Any]:
         """Processes webcam frame and computes biometric & postural telemetry."""
         h, w, _ = frame_bgr.shape
         metrics = {

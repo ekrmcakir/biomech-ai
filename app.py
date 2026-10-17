@@ -23,6 +23,12 @@ import os
 import sys
 import time
 import datetime
+import warnings
+
+# Suppress upstream TensorFlow and Google Protobuf deprecation warnings
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+warnings.filterwarnings("ignore", category=UserWarning, module="google.protobuf")
+
 import cv2
 
 from config import USER_CONFIG, UI_CONFIG, CAMERA_INDEX, FRAME_WIDTH, FRAME_HEIGHT, GEMINI_API_KEY
