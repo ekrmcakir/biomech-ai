@@ -1,0 +1,33 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# User Camera Snapshots & Images (100% Ignored)
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.mp4
+*.mov
+
+# User Biometric & Posture Reports (100% Ignored)
+*.txt
+!requirements.txt
+
+# macOS System Metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE / Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
