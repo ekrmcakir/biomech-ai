@@ -53,7 +53,7 @@ class BodyScanner:
             angle = 360 - angle
         return angle
 
-    def process_frame(self, frame_bgr: np.ndarray, user_height_cm: float = 170.0) -> Dict[str, Any]:
+    def process_frame(self, frame_bgr: np.ndarray, user_height_cm: Optional[float] = None) -> Dict[str, Any]:
         """Processes webcam frame and computes biometric & postural telemetry."""
         h, w, _ = frame_bgr.shape
         metrics = {
@@ -140,8 +140,9 @@ class BodyScanner:
         metrics["hip_width"] = round(hip_width, 1)
         metrics["torso_height"] = round(torso_height, 1)
 
-        # Scale pixels to real centimeters based on user height
-        torso_real_cm = max(40.0, user_height_cm * 0.30)
+        # Scale pixels to real centimeters based on user height (or default 170.0 reference constant)
+        ref_height = float(user_height_cm) if user_height_cm else 170.0
+        torso_real_cm = max(40.0, ref_height * 0.30)
         px_per_cm = max(0.5, torso_height / torso_real_cm)
 
         if torso_height < h * 0.18:

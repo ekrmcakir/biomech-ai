@@ -129,6 +129,7 @@ python app.py
 | Key | Action |
 | :--- | :--- |
 | **`[T]`** or **`[SPACE]`** | **Start Voice-Guided 360° Scan:** Sequential Front -> Back -> Side scan with voice instructions |
+| **`[C]`** | **Switch Camera:** Toggle between MacBook FaceTime HD Camera and iPhone Continuity Camera |
 | **`[V]`** | **Toggle Voice Coach:** Mute / Unmute the spoken English voice guidance |
 | **`[F]`** | **Switch Mode:** 360° Body Scan <-> Facial Fat & Jawline Scanner |
 | **`[B]`** | **Silhouette Mode:** Cycle between Normal, Dark Studio, and Cyber Laser effects |
@@ -140,14 +141,14 @@ python app.py
 
 ## ⚙️ Configuration
 
-Customize your anthropometric profile in [config.py](file:///Users/ekremcakir/.gemini/antigravity-ide/scratch/biomech-ai/config.py):
+Customize your anthropometric profile in [config.py](config.py):
 
 ```python
 USER_CONFIG = {
-    "gender": "male",      # 'male' or 'female'
-    "height_cm": 170,      # Height in cm (used for cm drop calibration)
-    "weight_kg": 63,       # Weight in kg
-    "age": 23,             # Age
+    "gender": "",          # 'male' or 'female'
+    "height_cm": None,     # Height in cm (used for cm drop calibration)
+    "weight_kg": None,     # Weight in kg
+    "age": None,           # Age
 }
 ```
 

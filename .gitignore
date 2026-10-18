@@ -20,6 +20,12 @@ __pycache__/
 # User Biometric & Posture Reports (100% Ignored)
 *.txt
 !requirements.txt
+*.csv
+*.json
+
+# Environment / Secrets
+.env
+.env.*
 
 # macOS System Metadata
 .DS_Store

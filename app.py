@@ -45,11 +45,15 @@ def main():
     print("=" * 76)
     print("Initializing camera feed...")
 
-    cap = cv2.VideoCapture(CAMERA_INDEX)
+    current_cam_idx = CAMERA_INDEX
+    cap = cv2.VideoCapture(current_cam_idx)
     if not cap.isOpened():
-        for alt_idx in [1, 2]:
+        for alt_idx in [0, 1, 2]:
+            if alt_idx == current_cam_idx:
+                continue
             cap = cv2.VideoCapture(alt_idx)
             if cap.isOpened():
+                current_cam_idx = alt_idx
                 break
 
     if not cap.isOpened():
@@ -59,7 +63,7 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
 
-    user_height = USER_CONFIG.get("height_cm", 170)
+    user_height = USER_CONFIG.get("height_cm")
     body_scanner = BodyScanner()
     face_scanner = FaceScanner()
     overlay = UIOverlay(UI_CONFIG)
@@ -89,6 +93,7 @@ def main():
     print("\n✓ System Ready!")
     print("  * Press [T] or [SPACE] to initiate the VOICE-GUIDED 360° SCAN.")
     print("    - Sequence: 1. FRONT -> 2. BACK -> 3. SIDE profile scans.")
+    print("  * Press [C] to switch Camera Source (MacBook FaceTime <-> iPhone/External).")
     print("  * Press [V] to toggle Voice Coach (ON / OFF).")
     print("  * Press [F] to switch between BODY SCAN and FACIAL FAT & JAWLINE mode.")
     print("  * Press [B] to toggle Cyber Laser / Dark Studio silhouette background.")
@@ -291,6 +296,23 @@ def main():
         elif key == ord('h') or key == ord('H'):
             show_landmarks = not show_landmarks
             print(f"[UI] Overlay lines: {'ON' if show_landmarks else 'OFF'}")
+
+        # [C] -> Switch Camera Source
+        elif key == ord('c') or key == ord('C'):
+            next_idx = 0 if current_cam_idx == 1 else 1
+            print(f"\n[Camera] Switching camera from index {current_cam_idx} to {next_idx}...")
+            cap.release()
+            new_cap = cv2.VideoCapture(next_idx)
+            if new_cap.isOpened():
+                current_cam_idx = next_idx
+                cap = new_cap
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
+                cam_label = "MacBook FaceTime HD Camera" if current_cam_idx == 1 else "iPhone Continuity / Camera 0"
+                print(f"[Camera] Active camera: {cam_label} (Index: {current_cam_idx})")
+            else:
+                print(f"[Camera Warning] Could not open camera {next_idx}. Reverting...")
+                cap = cv2.VideoCapture(current_cam_idx)
 
         # [T] or [SPACE] -> Start Voice 360° Scan (or Face Snapshot)
         elif key == ord('t') or key == ord('T') or key == 32:

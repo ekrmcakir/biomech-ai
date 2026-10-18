@@ -37,12 +37,24 @@ class AIAnalyzer:
     ) -> str:
         """Generates comprehensive 360° posture and body composition report in English."""
         user_cfg = user_config or {}
-        height = user_cfg.get("height_cm", 170)
-        weight = user_cfg.get("weight_kg", 63)
-        age = user_cfg.get("age", 23)
-        gender = user_cfg.get("gender", "male")
+        height = user_cfg.get("height_cm")
+        weight = user_cfg.get("weight_kg")
+        age = user_cfg.get("age")
+        gender = user_cfg.get("gender")
 
-        bmi = round(weight / ((height / 100) ** 2), 1)
+        height_str = f"{height} cm" if height else "Not specified"
+        weight_str = f"{weight} kg" if weight else "Not specified"
+        age_str = f"{age}" if age else "Not specified"
+        gender_str = gender.capitalize() if gender else "Not specified"
+
+        if height and weight:
+            try:
+                bmi_val = round(float(weight) / ((float(height) / 100) ** 2), 1)
+                bmi_str = f"{bmi_val}"
+            except Exception:
+                bmi_str = "N/A"
+        else:
+            bmi_str = "N/A (Provide in config.py)"
 
         f_met = front_metrics or (metrics if metrics.get("view_mode") == "front" else {})
         s_met = side_metrics or (metrics if metrics.get("view_mode") == "side" else {})
@@ -74,7 +86,7 @@ class AIAnalyzer:
    BIOMECHAI // 360° BIOMETRICS & POSTURE REPORT
 =============================================================
 Timestamp    : {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight: {weight} kg | BMI: {bmi}
+User Profile : {gender_str} | Age: {age_str} | Height: {height_str} | Weight: {weight_str} | BMI: {bmi_str}
 
 [ 1. BODY COMPOSITION & AESTHETICS (FRONT PROFILE) ]
 -------------------------------------------------------------
@@ -145,10 +157,15 @@ User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight
         user_config: Optional[Dict[str, Any]] = None
     ) -> str:
         user_cfg = user_config or {}
-        height = user_cfg.get("height_cm", 170)
-        weight = user_cfg.get("weight_kg", 63)
-        age = user_cfg.get("age", 23)
-        gender = user_cfg.get("gender", "male")
+        height = user_cfg.get("height_cm")
+        weight = user_cfg.get("weight_kg")
+        age = user_cfg.get("age")
+        gender = user_cfg.get("gender")
+
+        height_str = f"{height} cm" if height else "Not specified"
+        weight_str = f"{weight} kg" if weight else "Not specified"
+        age_str = f"{age}" if age else "Not specified"
+        gender_str = gender.capitalize() if gender else "Not specified"
 
         low_fat, high_fat = face_metrics.get("facial_fat_range", (12, 16))
         status = face_metrics.get("facial_adiposity_status", "Athletic")
@@ -163,7 +180,7 @@ User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight
    BIOMECHAI // FACIAL ADIPOSITY & JAWLINE REPORT
 =============================================================
 Timestamp    : {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-User Profile : {gender.capitalize()} | Age: {age} | Height: {height} cm | Weight: {weight} kg
+User Profile : {gender_str} | Age: {age_str} | Height: {height_str} | Weight: {weight_str}
 
 [ 1. ESTIMATED BODY FAT FROM FACIAL ANTHROPOMETRICS ]
 -------------------------------------------------------------

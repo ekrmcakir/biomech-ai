@@ -4,14 +4,14 @@ BiomechAI - Configuration File
 
 # User Anthropometric Parameters (Optional: for enhanced metric precision)
 USER_CONFIG = {
-    "gender": "male",      # 'male' or 'female'
-    "height_cm": 170,      # Height in cm
-    "weight_kg": 63,       # Weight in kg
-    "age": 23,             # Age
+    "gender": "",          # 'male' or 'female'
+    "height_cm": None,     # Height in cm
+    "weight_kg": None,     # Weight in kg
+    "age": None,           # Age
 }
 
 # Camera Settings
-CAMERA_INDEX = 0          # Default built-in webcam index
+CAMERA_INDEX = 1          # 1 for MacBook built-in FaceTime HD camera, 0 for iPhone/External
 FRAME_WIDTH = 1280
 FRAME_HEIGHT = 720
 
